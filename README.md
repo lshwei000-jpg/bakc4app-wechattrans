@@ -1,6 +1,33 @@
 # bakc4app-wechattrans
 借助bakc4app平台，搭建Tailscale转发程序，穿透微信登录限制
 
+把上面三个文件<app.py,requirements.txt,Dockerfile>Push 到你的GitHub 新仓库后，登入Back4app 控制台执行以下配置：
+
+创建项目：点击New App ➡️ 选择Containers (EaaS) ➡️ 连动你的GitHub 仓库。
+
+配置环境变量(Environment Variables)：
+
+在配置页面找到Environment Variables，添加一组：
+
+Key :TAILSCALE_AUTHKEY
+
+Value : （填入你在Tailscale 控制台生成的Key，建议设为Reusable 且永不过期）
+
+配置通用设置(General Settings)：
+
+Port : 填写8080（必须与我们代码中Flask 监听的连接埠一致，否则Back4app 会判定健康检查失败而无限重启）。
+
+👑 最核心步骤：配置外置存储(Volumes)：
+
+在项目设置中找到Volumes区域，点击Create Volume：
+
+Volume Name :ts-data
+
+Size : 选择最小值（如1 GB即可）
+
+Mount Path (挂载路径) : 必须填写/app/ts_state
+
+点击储存。
 
 本地批处理唤醒bat
 @echo off
